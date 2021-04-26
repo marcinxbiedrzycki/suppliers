@@ -1,0 +1,23 @@
+parameters:
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+    App\Listener\ProductsListener:
+        class: App\Listener\ProductsListener
+        tags:
+            - { name: kernel.event_listener, event: products.get, method: logProducts }
+
+    App\Listener\ConsoleListener:
+        class: App\Listener\ConsoleListener
+        tags:
+            - { name: console.event_listener, event: console.command, priority: 1024 }
